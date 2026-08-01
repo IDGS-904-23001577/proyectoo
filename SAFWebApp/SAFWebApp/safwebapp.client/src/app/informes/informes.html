@@ -1,0 +1,452 @@
+<div class="pagina-informes">
+  
+
+  <main class="contenido">
+    <section class="encabezado-pagina">
+      <h1>Generación de Informes</h1>
+
+      <p>
+        Consulta información del sistema y genera reportes descargables.
+      </p>
+    </section>
+
+    <div *ngIf="mensajeError()"
+         class="mensaje-error">
+      <span>{{ mensajeError() }}</span>
+
+      <button type="button"
+              (click)="cargarCatalogos()">
+        Reintentar
+      </button>
+    </div>
+    <div *ngIf="mensajeExito()"
+         class="mensaje-exito">
+      {{ mensajeExito() }}
+    </div>
+
+    <section class="contenedor-generacion">
+      <article class="tarjeta formulario-informe">
+        <h2>Generar nuevo informe</h2>
+
+        <div *ngIf="cargandoCatalogos()"
+             class="estado-carga">
+          <div class="indicador-carga"></div>
+
+          <span>
+            Cargando opciones...
+          </span>
+        </div>
+
+        <form *ngIf="catalogos() as opciones"
+              (ngSubmit)="generarInforme()">
+          <div class="campo campo-completo">
+            <label for="tipoInforme">
+              Tipo de informe
+            </label>
+
+            <select id="tipoInforme"
+                    name="tipoInforme"
+                    [(ngModel)]="tipoInforme"
+                    (change)="actualizarVistaPrevia()">
+              <option *ngFor="let tipo of opciones.tiposInforme"
+                      [value]="tipo.valor">
+                {{ tipo.etiqueta }}
+              </option>
+            </select>
+          </div>
+
+          <div class="grupo-fechas">
+            <div class="campo">
+              <label for="fechaInicio">
+                Fecha inicio
+              </label>
+
+              <input id="fechaInicio"
+                     name="fechaInicio"
+                     type="date"
+                     [(ngModel)]="fechaInicio"
+                     (change)="actualizarVistaPrevia()">
+            </div>
+
+            <div class="campo">
+              <label for="fechaFin">
+                Fecha fin
+              </label>
+
+              <input id="fechaFin"
+                     name="fechaFin"
+                     type="date"
+                     [(ngModel)]="fechaFin"
+                     (change)="actualizarVistaPrevia()">
+            </div>
+          </div>
+
+          <div class="campo campo-completo">
+            <label for="seccion">
+              Secciones
+            </label>
+
+            <select id="seccion"
+                    name="seccion"
+                    [(ngModel)]="seccion"
+                    (change)="actualizarVistaPrevia()">
+              <option *ngFor="let opcion of opciones.secciones"
+                      [value]="opcion.valor">
+                {{ opcion.etiqueta }}
+              </option>
+            </select>
+          </div>
+
+          <button type="submit"
+                  class="boton-generar"
+                  [disabled]="
+    generandoPdf()
+    || cargandoVistaPrevia()
+  ">
+            {{
+    generandoPdf()
+      ? 'Generando PDF...'
+      : 'Generar informe PDF'
+            }}
+          </button>
+        </form>
+      </article>
+
+      <article class="tarjeta tarjeta-vista-previa">
+        <h2>Vista previa</h2>
+
+        <div *ngIf="cargandoVistaPrevia() && !vistaPrevia()"
+             class="estado-carga vista-previa-cargando">
+          <div class="indicador-carga"></div>
+
+          <span>
+            Consultando información...
+          </span>
+        </div>
+
+        <div *ngIf="vistaPrevia() as informe"
+             class="documento-previo"
+             [class.actualizando]="cargandoVistaPrevia()">
+          <header class="encabezado-documento">
+            <div class="logo-documento">
+              <img src="/saf-logo.png"
+                   alt=""
+                   aria-hidden="true">
+
+              <span>SAF</span>
+            </div>
+
+            <h3>
+              {{ informe.tipoInformeEtiqueta }}
+            </h3>
+
+            <span class="periodo-documento">
+              {{ informe.fechaInicio | date:'dd/MM/yyyy' }}
+              -
+              {{ informe.fechaFin | date:'dd/MM/yyyy' }}
+            </span>
+          </header>
+
+          <section *ngIf="esInformeDeFugas(informe)"
+                   class="seccion-documento">
+            <h4>Resumen de fugas</h4>
+
+            <ul class="lista-resumen">
+              <li>
+                Total de fugas detectadas:
+                <strong>
+                  {{ informe.resumen.totalFugas }}
+                </strong>
+              </li>
+
+              <li>
+                Fugas activas:
+                <strong>
+                  {{ informe.resumen.fugasActivas }}
+                </strong>
+              </li>
+
+              <li>
+                Fugas pendientes:
+                <strong>
+                  {{ informe.resumen.fugasPendientes }}
+                </strong>
+              </li>
+
+              <li>
+                Fugas resueltas:
+                <strong>
+                  {{ informe.resumen.fugasResueltas }}
+                </strong>
+              </li>
+
+              <li>
+                Volumen perdido:
+                <strong>
+                  {{
+                    informe.resumen.volumenPerdidoLitros
+                      | number:'1.0-2'
+                  }}
+                  litros
+                </strong>
+              </li>
+
+              <li>
+                Intervenciones registradas:
+                <strong>
+                  {{ informe.resumen.totalIntervenciones }}
+                </strong>
+              </li>
+            </ul>
+          </section>
+
+          <section *ngIf="informe.tipoInforme === 'Completo'"
+                   class="seccion-documento">
+            <h4>Resumen de lecturas</h4>
+
+            <ul class="lista-resumen">
+              <li>
+                Total de lecturas:
+                <strong>
+                  {{ informe.resumen.totalLecturas }}
+                </strong>
+              </li>
+
+              <li>
+                Flujo promedio:
+                <strong>
+                  {{
+                    informe.resumen.flujoPromedioLpm
+                      | number:'1.0-2'
+                  }}
+                  L/min
+                </strong>
+              </li>
+
+              <li>
+                Presión promedio:
+                <strong>
+                  {{
+                    informe.resumen.presionPromedioBar
+                      | number:'1.0-2'
+                  }}
+                  bar
+                </strong>
+              </li>
+            </ul>
+          </section>
+
+          <section *ngIf="esInformeDeValvulas(informe)"
+                   class="seccion-documento">
+            <h4>Estado de válvulas</h4>
+
+            <div class="resumen-valvulas">
+              <span>
+                Abiertas:
+                <strong>
+                  {{ informe.resumen.valvulasAbiertas }}
+                </strong>
+              </span>
+
+              <span>
+                Cerradas:
+                <strong>
+                  {{ informe.resumen.valvulasCerradas }}
+                </strong>
+              </span>
+            </div>
+
+            <div class="lista-valvulas">
+              <div *ngFor="let valvula of informe.valvulas"
+                   class="valvula">
+                <div>
+                  <strong>{{ valvula.nombre }}</strong>
+
+                  <span>{{ valvula.secciones }}</span>
+                </div>
+
+                <span class="estado-valvula"
+                      [ngClass]="obtenerClaseValvula(valvula.estado)">
+                  {{ valvula.estado }}
+                </span>
+              </div>
+            </div>
+          </section>
+
+          <section class="seccion-documento">
+            <h4>Secciones incluidas</h4>
+
+            <div class="secciones-incluidas">
+              <span *ngFor="let seccionIncluida of informe.seccionesIncluidas">
+                {{ seccionIncluida }}
+              </span>
+            </div>
+          </section>
+
+          <footer class="pie-documento">
+            Generado:
+            {{
+              informe.fechaGeneracion
+                | date:'dd/MM/yyyy HH:mm:ss'
+            }}
+          </footer>
+        </div>
+
+        <div *ngIf="!vistaPrevia() && !cargandoVistaPrevia()"
+             class="vista-previa-vacia">
+          Selecciona los filtros para consultar el informe.
+        </div>
+      </article>
+    </section>
+
+    <section class="tarjeta informes-recientes">
+      <header class="encabezado-informes-recientes">
+        <div>
+          <h2>Informes recientes</h2>
+
+          <p>
+            Historial de los últimos archivos PDF generados.
+          </p>
+        </div>
+
+        <button type="button"
+                class="boton-actualizar-informes"
+                [disabled]="cargandoInformesRecientes()"
+                (click)="cargarInformesRecientes()">
+          Actualizar
+        </button>
+      </header>
+
+      <div *ngIf="cargandoInformesRecientes()"
+           class="estado-informes-recientes">
+        <div class="indicador-carga"></div>
+
+        <span>
+          Consultando informes recientes...
+        </span>
+      </div>
+
+      <div *ngIf="
+      mensajeErrorRecientes()
+      && !cargandoInformesRecientes()
+    "
+           class="error-informes-recientes">
+        <span>
+          {{ mensajeErrorRecientes() }}
+        </span>
+
+        <button type="button"
+                (click)="cargarInformesRecientes()">
+          Reintentar
+        </button>
+      </div>
+
+      <div *ngIf="
+      !cargandoInformesRecientes()
+      && !mensajeErrorRecientes()
+      && informesRecientes().length === 0
+    "
+           class="sin-informes">
+        <span>
+          Todavía no se han registrado informes PDF.
+        </span>
+
+        <small>
+          Genera un informe para que aparezca en esta lista.
+        </small>
+      </div>
+
+      <div *ngIf="
+           !cargandoInformesRecientes()
+           && !mensajeErrorRecientes()
+           && informesRecientes().length>
+        0
+        "
+        class="lista-informes-recientes"
+        >
+        <article *ngFor="let informe of informesRecientes()"
+                 class="fila-informe">
+          <div class="icono-archivo">
+            <svg viewBox="0 0 24 24"
+                 width="20"
+                 height="20"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="1.8">
+              <path d="M6 2h8l4 4v16H6z"></path>
+              <path d="M14 2v5h5"></path>
+            </svg>
+          </div>
+
+          <div class="datos-informe">
+            <strong>
+              {{ informe.nombreArchivo }}
+            </strong>
+
+            <span>
+              {{
+            informe.fechaGeneracion
+              | date:'dd/MM/yyyy HH:mm'
+              }}
+              ·
+              {{ formatearTamano(informe.tamanoBytes) }}
+            </span>
+
+            <small>
+              {{
+            informe.fechaInicio
+              | date:'dd/MM/yyyy'
+              }}
+              -
+              {{
+            informe.fechaFin
+              | date:'dd/MM/yyyy'
+              }}
+              ·
+              {{ informe.seccionEtiqueta }}
+            </small>
+          </div>
+
+          <span class="etiqueta-tipo-informe"
+                [ngClass]="
+          obtenerClaseTipoInforme(
+            informe.tipoInforme
+          )
+        ">
+            {{ informe.tipoInformeEtiqueta }}
+          </span>
+
+          <button type="button"
+                  class="boton-descargar-informe"
+                  [disabled]="
+          descargandoInformeId() === informe.id
+        "
+                  [attr.aria-label]="
+          'Descargar ' + informe.nombreArchivo
+        "
+                  (click)="descargarInformeReciente(informe)">
+            <svg *ngIf="
+            descargandoInformeId() !== informe.id
+          "
+                 viewBox="0 0 24 24"
+                 width="18"
+                 height="18"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="2">
+              <path d="M12 3v12"></path>
+              <path d="m7 10 5 5 5-5"></path>
+              <path d="M5 21h14"></path>
+            </svg>
+
+            <span *ngIf="
+            descargandoInformeId() === informe.id
+          ">
+              ...
+            </span>
+          </button>
+        </article>
+      </div>
+    </section>
+  </main>
+</div>

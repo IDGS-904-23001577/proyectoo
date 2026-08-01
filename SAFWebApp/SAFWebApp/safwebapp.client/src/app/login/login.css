@@ -1,0 +1,203 @@
+:host {
+  display: block;
+  min-height: 100vh;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.login-wrapper {
+  position: relative;
+  min-height: 100vh;
+  padding: 32px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #dcecf8;
+  background-image: linear-gradient( rgba(225, 241, 252, 0.12), rgba(207, 232, 248, 0.18) ), url('/saf-login-bg.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+  .login-wrapper::before {
+    position: absolute;
+    inset: 0;
+    content: '';
+    background: radial-gradient( circle at center, rgba(255, 255, 255, 0.06) 0%, rgba(18, 85, 145, 0.08) 100% );
+    pointer-events: none;
+  }
+
+.login-card {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 410px;
+  padding: 42px 40px 38px;
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.78);
+  border-radius: 18px;
+  box-shadow: 0 24px 55px rgba(27, 82, 128, 0.2), 0 7px 18px rgba(27, 82, 128, 0.1);
+  backdrop-filter: blur(11px);
+  -webkit-backdrop-filter: blur(11px);
+}
+
+.login-header {
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  margin-bottom: 5px;
+}
+
+  .logo-container img {
+    width: 34px;
+    height: 34px;
+    display: block;
+    object-fit: contain;
+  }
+
+.logo-text {
+  color: #1964b3;
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+}
+
+.login-header h2 {
+  margin: 0 0 7px;
+  color: #25364a;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.login-header p {
+  margin: 0;
+  color: #76869a;
+  font-size: 12px;
+}
+
+form {
+  width: 100%;
+}
+
+.form-group {
+  margin-bottom: 22px;
+}
+
+  .form-group label {
+    display: block;
+    margin-bottom: 7px;
+    color: #44566b;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .form-group input {
+    width: 100%;
+    min-height: 47px;
+    padding: 0 14px;
+    color: #26374b;
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid #cbd9e6;
+    border-radius: 9px;
+    outline: none;
+    font-size: 13px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+  }
+
+    .form-group input::placeholder {
+      color: #99a5b2;
+    }
+
+    .form-group input:hover {
+      border-color: #a9bfd3;
+    }
+
+    .form-group input:focus {
+      background: #ffffff;
+      border-color: #1964b3;
+      box-shadow: 0 0 0 4px rgba(25, 100, 179, 0.13);
+    }
+
+.error-message {
+  margin: -4px 0 16px;
+  padding: 10px 12px;
+  color: #b4232c;
+  background: rgba(255, 238, 239, 0.92);
+  border: 1px solid #efc5c8;
+  border-radius: 7px;
+  font-size: 12px;
+  text-align: center;
+}
+
+button {
+  width: 100%;
+  min-height: 48px;
+  padding: 12px 18px;
+  color: #ffffff;
+  background: linear-gradient( 135deg, #1964b3, #268bd2 );
+  border: none;
+  border-radius: 9px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 9px 20px rgba(25, 100, 179, 0.24);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease, background 0.2s ease;
+}
+
+  button:hover:not(:disabled) {
+    transform: translateY(-1px);
+    background: linear-gradient( 135deg, #145697, #1978bd );
+    box-shadow: 0 12px 24px rgba(25, 100, 179, 0.32);
+  }
+
+  button:active:not(:disabled) {
+    transform: translateY(0);
+  }
+
+  button:disabled {
+    opacity: 0.65;
+    cursor: wait;
+    box-shadow: none;
+  }
+
+@media (max-width: 600px) {
+  .login-wrapper {
+    min-height: 100dvh;
+    padding: 20px 14px;
+    background-position: 68% center;
+    background-attachment: scroll;
+  }
+
+  .login-card {
+    max-width: 390px;
+    padding: 34px 24px 30px;
+    border-radius: 15px;
+  }
+
+  .login-header {
+    margin-bottom: 26px;
+  }
+
+  .logo-container img {
+    width: 32px;
+    height: 32px;
+  }
+
+  .logo-text {
+    font-size: 24px;
+  }
+
+  .login-header h2 {
+    font-size: 16px;
+  }
+}

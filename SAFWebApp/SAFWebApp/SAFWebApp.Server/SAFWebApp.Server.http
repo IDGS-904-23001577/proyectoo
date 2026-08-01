@@ -1,0 +1,6 @@
+@SAFWebApp.Server_HostAddress = http://localhost:5082
+
+GET {{SAFWebApp.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

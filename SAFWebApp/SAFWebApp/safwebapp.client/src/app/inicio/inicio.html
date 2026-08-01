@@ -1,0 +1,6 @@
+<main style="max-width: 700px; margin: 60px auto; font-family: Arial, sans-serif;">
+  <h1>Bienvenido, {{ usuario?.nombre }}</h1>
+  <p>El inicio de sesión se realizó correctamente.</p>
+  <p><strong>Rol:</strong> {{ usuario?.rol }}</p>
+  <button type="button" (click)="cerrarSesion()">Cerrar sesión</button>
+</main>

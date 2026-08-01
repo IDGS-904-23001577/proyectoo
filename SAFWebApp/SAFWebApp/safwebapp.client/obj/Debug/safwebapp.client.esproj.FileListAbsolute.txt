@@ -1,0 +1,6 @@
+C:\Users\soyji\Downloads\SAFWebApp\safwebapp.client\obj\Debug\safwebapp.client.esproj.CoreCompileInputs.cache
+C:\Users\soyji\OneDrive\Escritorio\SAFWebApp\safwebapp.client\obj\Debug\safwebapp.client.esproj.CoreCompileInputs.cache
+C:\Users\Daniel\Downloads\SAFWebApp\SAFWebApp\safwebapp.client\obj\Debug\safwebapp.client.esproj.CoreCompileInputs.cache
+C:\Users\16sep\Downloads\SAFWebApp\SAFWebApp\SAFWebApp\safwebapp.client\obj\Debug\safwebapp.client.esproj.CoreCompileInputs.cache
+C:\Users\Carlo\Downloads\SAFWebApp\SAFWebApp\SAFWebApp\safwebapp.client\obj\Debug\safwebapp.client.esproj.CoreCompileInputs.cache
+C:\Users\soyji\OneDrive\Escritorio\SAFWebApp\SAFWebApp\SAFWebApp\safwebapp.client\obj\Debug\safwebapp.client.esproj.CoreCompileInputs.cache

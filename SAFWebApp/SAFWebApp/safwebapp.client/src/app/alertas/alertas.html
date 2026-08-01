@@ -1,0 +1,195 @@
+<div class="pagina-alertas">
+  
+
+  <main class="contenido">
+    <section class="encabezado-pagina">
+      <div>
+        <h1>Gestión de Alertas</h1>
+        <p>
+          Supervisión de fugas y eventos detectados
+        </p>
+      </div>
+
+      <span class="fecha-actual">
+        ◷ {{ fechaActual }}
+      </span>
+    </section>
+
+    <section class="resumen">
+      <article class="tarjeta-resumen resumen-alta">
+        <strong>{{ cantidadAltas() }}</strong>
+        <span>Severidad alta</span>
+      </article>
+
+      <article class="tarjeta-resumen resumen-media">
+        <strong>{{ cantidadMedias() }}</strong>
+        <span>Severidad media</span>
+      </article>
+
+      <article class="tarjeta-resumen resumen-baja">
+        <strong>{{ cantidadBajas() }}</strong>
+        <span>Severidad baja</span>
+      </article>
+
+      <article class="tarjeta-resumen resumen-activa">
+        <strong>{{ cantidadActivas() }}</strong>
+        <span>Activas ahora</span>
+      </article>
+    </section>
+
+    <section class="filtros">
+      <div class="grupo-busqueda">
+        <div class="buscador">
+          <span>⌕</span>
+
+          <input type="text"
+                 placeholder="Buscar alertas..."
+                 [ngModel]="busqueda()"
+                 (ngModelChange)="busqueda.set($event)">
+        </div>
+
+        <div class="grupo-botones">
+          <button type="button"
+                  [class.seleccionado]="filtroSeveridad() === 'Todas'"
+                  (click)="seleccionarSeveridad('Todas')">
+
+            Todas
+          </button>
+
+          <button type="button"
+                  [class.seleccionado]="filtroSeveridad() === 'Alta'"
+                  (click)="seleccionarSeveridad('Alta')">
+
+            Alta
+          </button>
+
+          <button type="button"
+                  [class.seleccionado]="filtroSeveridad() === 'Media'"
+                  (click)="seleccionarSeveridad('Media')">
+
+            Media
+          </button>
+
+          <button type="button"
+                  [class.seleccionado]="filtroSeveridad() === 'Baja'"
+                  (click)="seleccionarSeveridad('Baja')">
+
+            Baja
+          </button>
+        </div>
+      </div>
+
+      <div class="grupo-botones estados">
+        <button type="button"
+                [class.seleccionado]="filtroEstado() === 'Todos'"
+                (click)="seleccionarEstado('Todos')">
+
+          Todos
+        </button>
+
+        <button type="button"
+                [class.seleccionado]="filtroEstado() === 'Activa'"
+                (click)="seleccionarEstado('Activa')">
+
+          Activa
+        </button>
+
+        <button type="button"
+                [class.seleccionado]="filtroEstado() === 'Pendiente'"
+                (click)="seleccionarEstado('Pendiente')">
+
+          Pendiente
+        </button>
+
+        <button type="button"
+                [class.seleccionado]="filtroEstado() === 'Resuelta'"
+                (click)="seleccionarEstado('Resuelta')">
+
+          Resuelta
+        </button>
+      </div>
+    </section>
+
+    <section class="lista-alertas">
+      <div *ngIf="cargando()"
+           class="estado-pagina">
+
+        <div class="spinner"></div>
+        <p>Cargando alertas...</p>
+      </div>
+
+      <div *ngIf="!cargando() && errorMessage()"
+           class="estado-pagina estado-error">
+
+        <p>{{ errorMessage() }}</p>
+
+        <button type="button"
+                (click)="cargarAlertas()">
+
+          Intentar nuevamente
+        </button>
+      </div>
+
+      <div *ngIf="
+          !cargando() &&
+          !errorMessage() &&
+          alertasFiltradas().length === 0
+        "
+           class="estado-pagina">
+
+        <p>No se encontraron alertas.</p>
+      </div>
+
+      <article *ngFor="let alerta of alertasFiltradas()"
+               class="alerta-item"
+               [class]="
+          'alerta-item ' +
+          claseSeveridad(alerta.severidad)
+        ">
+
+        <div class="icono-alerta"
+             [class]="
+            'icono-alerta ' +
+            claseSeveridad(alerta.severidad)
+          ">
+
+          △
+        </div>
+
+        <div class="informacion-alerta">
+          <div class="titulo-alerta">
+            <h2>
+              Fuga detectada — {{ alerta.seccion }}
+            </h2>
+
+            <span class="etiqueta severidad"
+                  [class]="
+                'etiqueta severidad ' +
+                claseSeveridad(alerta.severidad)
+              ">
+
+              {{ alerta.severidad }}
+            </span>
+
+            <span class="etiqueta estado"
+                  [class]="
+                'etiqueta estado ' +
+                claseEstado(alerta.estado)
+              ">
+
+              {{ alerta.estado }}
+            </span>
+          </div>
+
+          <p>
+            {{ descripcionAlerta(alerta) }}
+          </p>
+        </div>
+
+        <time>
+          {{ tiempoTranscurrido(alerta.fechaDeteccion) }}
+        </time>
+      </article>
+    </section>
+  </main>
+</div>

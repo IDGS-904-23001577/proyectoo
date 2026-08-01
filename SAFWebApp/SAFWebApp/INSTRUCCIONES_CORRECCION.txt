@@ -1,0 +1,26 @@
+SOLUCIÓN DEL LOGIN QUE SE QUEDA EN "CARGANDO"
+
+1. Abre SAFWebApp.slnx en Visual Studio.
+2. Haz clic derecho sobre SAFWebApp.Server y elige "Establecer como proyecto de inicio".
+3. No establezcas safwebapp.client como único proyecto de inicio. El servidor .NET ya ejecuta Angular mediante SpaProxy.
+4. En la barra superior selecciona el perfil "https" de SAFWebApp.Server.
+5. Ejecuta con F5 o Ctrl+F5.
+6. Espera a que la salida muestre estas dos direcciones:
+   - API: http://localhost:5082 (y también https://localhost:7032)
+   - Angular: https://localhost:55541
+7. Prueba el login.
+
+CAMBIOS INCLUIDOS
+
+- proxy.conf.js envía /api a http://localhost:5082.
+- Program.cs evita redirigir el proxy local a HTTPS durante Development.
+- Se eliminó la petición de ejemplo /weatherforecast.
+- El login tiene timeout de 15 segundos y finalize para que nunca se quede cargando.
+- AuthController usa llamadas asíncronas y devuelve 503 si falla MySQL.
+- Se agregó /inicio para comprobar que las credenciales correctas sí permiten entrar.
+- Se corrigieron las pruebas que todavía usaban WeatherForecast y una clase Login inexistente.
+
+IMPORTANTE
+
+No subas appsettings.json a un repositorio público porque contiene la contraseña de Railway.
+Conviene cambiar esa contraseña y después guardarla con User Secrets o una variable de entorno.

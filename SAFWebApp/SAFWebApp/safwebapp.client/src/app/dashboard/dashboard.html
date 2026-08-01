@@ -1,0 +1,120 @@
+<div class="pagina-dashboard">
+  <main class="contenido">
+    <section class="encabezado-pagina">
+      <h1>Panel de Control</h1>
+    </section>
+
+    <p class="mensaje-error" *ngIf="mensajeError()">
+      {{ mensajeError() }}
+    </p>
+
+    <p class="mensaje-carga" *ngIf="cargando() && !dashboard()">
+      Cargando panel de control…
+    </p>
+
+    <ng-container *ngIf="dashboard() as datos">
+      <section class="tarjetas-resumen">
+        <article class="tarjeta">
+          <div class="tarjeta-encabezado">
+            <span>Fugas Activas</span>
+            <span class="icono icono-alerta">⚠</span>
+          </div>
+          <strong>{{ datos.fugasActivas }}</strong>
+          <small>Requieren atención</small>
+        </article>
+
+        <article class="tarjeta">
+          <div class="tarjeta-encabezado">
+            <span>Agua Perdida Hoy</span>
+            <span class="icono">⟳</span>
+          </div>
+          <strong>{{ datos.aguaPerdidaHoyLitros | number:'1.0-0' }} L</strong>
+          <small>Últimas 24 horas</small>
+        </article>
+
+        <article class="tarjeta">
+          <div class="tarjeta-encabezado">
+            <span>Secciones Operativas</span>
+            <span class="icono icono-ok">✓</span>
+          </div>
+          <strong>{{ datos.seccionesOperativas }}/{{ datos.seccionesTotales }}</strong>
+          <small>Estado normal</small>
+        </article>
+
+        <article class="tarjeta">
+          <div class="tarjeta-encabezado">
+            <span>Válvulas Activas</span>
+            <span class="icono">⌁</span>
+          </div>
+          <strong>{{ datos.valvulasActivas }}</strong>
+          <small>Funcionando correctamente</small>
+        </article>
+      </section>
+
+      <section class="fila-widgets">
+        <article class="panel eventos-recientes">
+          <h2>Eventos Recientes</h2>
+
+          <p class="sin-datos" *ngIf="datos.eventosRecientes.length === 0">
+            Sin eventos registrados
+          </p>
+
+          <div class="evento" *ngFor="let evento of datos.eventosRecientes">
+            <div>
+              <strong>{{ evento.seccion }}</strong>
+              <small>{{ evento.fechaDeteccion }}</small>
+            </div>
+
+            <span
+              [class]="'etiqueta severidad ' + claseSeveridad(evento.severidad)">
+              {{ evento.severidad }}
+            </span>
+          </div>
+        </article>
+      </section>
+
+      <section class="fila-widgets fila-widgets-inferior">
+        <article class="panel">
+          <h2>Fugas Semanales</h2>
+
+          <div class="grafico-barras">
+            <div class="columna-barra" *ngFor="let dia of datos.fugasSemanales">
+              <div
+                class="barra"
+                [style.height.%]="alturaBarraPorcentaje(dia.cantidad)"
+                [attr.title]="dia.cantidad">
+              </div>
+              <span>{{ dia.dia }}</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="panel">
+          <h2>Predicción de Riesgo</h2>
+
+          <p class="sin-datos" *ngIf="datos.prediccionRiesgo.length === 0">
+            Sin predicciones disponibles
+          </p>
+
+          <div class="fila-riesgo" *ngFor="let riesgo of datos.prediccionRiesgo">
+            <div class="fila-riesgo-encabezado">
+              <strong>{{ riesgo.seccion }}</strong>
+
+              <span [class]="'etiqueta riesgo ' + claseRiesgo(riesgo.riesgo)">
+                {{ riesgo.porcentajeMasReciente | number:'1.0-0' }}%
+              </span>
+            </div>
+
+            <div class="barra-progreso">
+              <div
+                class="barra-progreso-relleno"
+                [class]="claseRiesgo(riesgo.riesgo)"
+                [style.width.%]="riesgo.porcentajeMasReciente">
+              </div>
+            </div>
+          </div>
+        </article>
+      </section>
+    </ng-container>
+  </main>
+</div>

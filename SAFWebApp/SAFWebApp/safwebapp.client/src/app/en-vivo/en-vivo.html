@@ -1,0 +1,133 @@
+<div class="pagina-en-vivo">
+  <main class="contenido">
+    <section class="encabezado-pagina">
+      <h1>Monitoreo en Tiempo Real</h1>
+
+      <div class="estado-conexion" *ngIf="ultimaActualizacion()">
+        <span>
+          Actualizado {{ ultimaActualizacion() | date:'shortTime' }}
+        </span>
+
+        <span
+          class="pastilla-conexion"
+          [class.conectado]="seccionActual()?.sensorEnLinea">
+          {{ seccionActual()?.sensorEnLinea ? 'Conectado' : 'Sin señal' }}
+        </span>
+      </div>
+    </section>
+
+    <p class="mensaje-error" *ngIf="mensajeError()">
+      {{ mensajeError() }}
+    </p>
+
+    <p class="mensaje-carga" *ngIf="cargando() && secciones().length === 0">
+      Cargando lecturas…
+    </p>
+
+    <ng-container *ngIf="secciones().length > 0">
+      <nav class="tabs-secciones">
+        <button
+          type="button"
+          *ngFor="let seccion of secciones()"
+          [class.activo]="seccion.seccion === seccionSeleccionada()"
+          [class]="'tab-seccion ' + claseEstado(seccion.estado)
+            + (seccion.seccion === seccionSeleccionada() ? ' activo' : '')"
+          (click)="seleccionarSeccion(seccion.seccion)">
+          <strong>{{ seccion.etiqueta }}</strong>
+          <small>{{ seccion.presionBar | number:'1.1-1' }} bar</small>
+        </button>
+      </nav>
+
+      <section class="tarjetas-resumen" *ngIf="seccionActual() as actual">
+        <article class="tarjeta">
+          <span>Presión Actual</span>
+          <strong>{{ actual.presionBar | number:'1.1-1' }} bar</strong>
+          <small>{{ actual.etiqueta }}</small>
+        </article>
+
+        <article class="tarjeta">
+          <span>Caudal Actual</span>
+          <strong>{{ actual.caudalLmin | number:'1.1-1' }} L/min</strong>
+          <small>{{ actual.etiqueta }}</small>
+        </article>
+
+        <article class="tarjeta">
+          <span>Estado del Tramo</span>
+          <span [class]="'etiqueta-estado ' + claseEstado(actual.estado)">
+            {{ actual.estado }}
+          </span>
+          <small>
+            Sensor IoT: {{ actual.sensorEnLinea ? 'En línea' : 'Sin señal' }}
+          </small>
+        </article>
+      </section>
+
+      <section class="panel">
+        <h2>Lecturas en vivo — {{ seccionActual()?.etiqueta }}</h2>
+
+        <svg
+          class="grafica"
+          viewBox="0 0 600 160"
+          preserveAspectRatio="none">
+          <polyline
+            class="linea-presion"
+            [attr.points]="puntosPresion()"
+            fill="none" />
+
+          <polyline
+            class="linea-caudal"
+            [attr.points]="puntosCaudal()"
+            fill="none" />
+        </svg>
+
+        <div class="leyenda">
+          <span class="leyenda-item">
+            <i class="punto punto-presion"></i> Presión (bar)
+          </span>
+          <span class="leyenda-item">
+            <i class="punto punto-caudal"></i> Caudal (L/min)
+          </span>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Resumen de Todos los Tramos</h2>
+
+        <table class="tabla-resumen">
+          <thead>
+            <tr>
+              <th>Tramo</th>
+              <th>Presión (bar)</th>
+              <th>Caudal (L/min)</th>
+              <th>Estado</th>
+              <th>Sensor</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let seccion of secciones()">
+              <td>
+                <strong>{{ seccion.etiqueta }}</strong>
+                <small>{{ seccion.seccion }}</small>
+              </td>
+              <td>{{ seccion.presionBar | number:'1.1-1' }}</td>
+              <td>{{ seccion.caudalLmin | number:'1.1-1' }}</td>
+              <td>
+                <span [class]="'etiqueta-estado ' + claseEstado(seccion.estado)">
+                  {{ seccion.estado }}
+                </span>
+              </td>
+              <td>
+                <span
+                  class="punto-sensor"
+                  [class.en-linea]="seccion.sensorEnLinea">
+                </span>
+                {{ seccion.sensorEnLinea ? 'En línea' : 'Sin señal' }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </ng-container>
+  </main>
+</div>

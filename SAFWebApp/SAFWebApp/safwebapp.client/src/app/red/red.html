@@ -1,0 +1,149 @@
+<div class="pagina-red">
+  
+
+  <main class="contenido">
+    <section class="encabezado-red">
+      <div>
+        <h1>Mapa de Red de Distribución</h1>
+
+        <p>
+          Supervisión del estado actual de la red hidráulica
+        </p>
+      </div>
+
+      <div class="filtros-red"
+           role="group"
+           aria-label="Filtros del mapa">
+
+        <button *ngFor="let filtro of filtros"
+                type="button"
+                class="boton-filtro"
+                [class.activo]="filtroActivo() === filtro.valor"
+                (click)="seleccionarFiltro(filtro.valor)">
+
+          {{ filtro.etiqueta }}
+        </button>
+      </div>
+    </section>
+
+    <section class="tarjeta-mapa">
+      <div *ngIf="cargando()"
+           class="estado-contenido">
+
+        <div class="indicador-carga"></div>
+
+        <p>
+          Consultando información de la red...
+        </p>
+      </div>
+
+      <div *ngIf="mensajeError() && !cargando()"
+           class="estado-contenido estado-error">
+
+        <p>
+          {{ mensajeError() }}
+        </p>
+
+        <button type="button"
+                class="boton-reintentar"
+                (click)="cargarRed()">
+
+          Reintentar
+        </button>
+      </div>
+
+      <ng-container *ngIf="red() as mapa">
+        <div *ngIf="!cargando() && !mensajeError()"
+             class="lienzo-mapa">
+
+          <svg class="capa-conexiones"
+               viewBox="0 0 100 100"
+               preserveAspectRatio="none"
+               aria-hidden="true">
+
+            <line *ngFor="let conexion of conexionesVisuales()"
+                  [attr.x1]="conexion.x1"
+                  [attr.y1]="conexion.y1"
+                  [attr.x2]="conexion.x2"
+                  [attr.y2]="conexion.y2">
+            </line>
+          </svg>
+
+          <article *ngFor="let nodo of mapa.nodos"
+                   class="contenedor-nodo"
+                   [style.left.%]="nodo.posicionX"
+                   [style.top.%]="nodo.posicionY"
+                   [class.atenuado]="!nodoCoincideFiltro(nodo)">
+
+            <button type="button"
+                    class="nodo-red"
+                    [ngClass]="obtenerClaseEstado(nodo.estado)"
+                    [attr.title]="obtenerDetalleNodo(nodo)"
+                    [attr.aria-label]="obtenerDetalleNodo(nodo)">
+            </button>
+
+            <span class="etiqueta-nodo">
+              {{ nodo.etiqueta }}
+            </span>
+
+            <span class="estado-nodo"
+                  [ngClass]="'texto-' + nodo.estado.toLowerCase()">
+
+              {{ obtenerTextoEstado(nodo.estado) }}
+            </span>
+
+            <div *ngIf="nodo.estado !== 'Normal'"
+                 class="detalle-alerta">
+
+              <strong>
+                {{ nodo.seccionAfectada || nodo.etiqueta }}
+              </strong>
+
+              <span>
+                Severidad:
+                {{ nodo.severidad || 'Sin definir' }}
+              </span>
+
+              <span *ngIf="nodo.fechaDeteccion">
+                Detectada:
+                {{ nodo.fechaDeteccion }}
+              </span>
+            </div>
+          </article>
+        </div>
+
+        <footer *ngIf="!cargando() && !mensajeError()"
+                class="pie-mapa">
+
+          <div class="leyenda">
+            <span class="elemento-leyenda">
+              <span class="punto-leyenda punto-normal"></span>
+              Normal
+            </span>
+
+            <span class="elemento-leyenda">
+              <span class="punto-leyenda punto-advertencia"></span>
+              Advertencia
+            </span>
+
+            <span class="elemento-leyenda">
+              <span class="punto-leyenda punto-fuga"></span>
+              Fuga activa
+            </span>
+          </div>
+
+          <div class="informacion-actualizacion">
+            <span>
+              Actualización automática cada 3 segundos
+            </span>
+
+            <span class="fecha-actualizacion">
+              Actualizado:
+              {{ mapa.fechaActualizacion | date:'dd/MM/yyyy HH:mm:ss' }}
+            </span>
+          </div>
+        </footer>
+      </ng-container>
+    </section>
+  </main>
+</div>

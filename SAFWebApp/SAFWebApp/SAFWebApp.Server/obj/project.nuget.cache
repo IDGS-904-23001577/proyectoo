@@ -1,0 +1,40 @@
+{
+  "version": 2,
+  "dgSpecHash": "NUhxBf3FTjQ=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\soyji\\OneDrive\\Escritorio\\SAFWebApp\\SAFWebApp\\SAFWebApp\\SAFWebApp.Server\\SAFWebApp.Server.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\soyji\\.nuget\\packages\\microsoft.aspnetcore.openapi\\10.0.8\\microsoft.aspnetcore.openapi.10.0.8.nupkg.sha512",
+    "C:\\Users\\soyji\\.nuget\\packages\\microsoft.aspnetcore.spaproxy\\10.0.10\\microsoft.aspnetcore.spaproxy.10.0.10.nupkg.sha512",
+    "C:\\Users\\soyji\\.nuget\\packages\\microsoft.openapi\\2.0.0\\microsoft.openapi.2.0.0.nupkg.sha512",
+    "C:\\Users\\soyji\\.nuget\\packages\\mqttnet\\4.3.7.1207\\mqttnet.4.3.7.1207.nupkg.sha512",
+    "C:\\Users\\soyji\\.nuget\\packages\\mysqlconnector\\2.6.1\\mysqlconnector.2.6.1.nupkg.sha512",
+    "C:\\Users\\soyji\\.nuget\\packages\\questpdf\\2026.7.1\\questpdf.2026.7.1.nupkg.sha512"
+  ],
+  "logs": [
+    {
+      "code": "NU1603",
+      "level": "Warning",
+      "message": "SAFWebApp.Server depende de MQTTnet (>= 4.3.7), pero no se encontró MQTTnet 4.3.7. MQTTnet 4.3.7.1207 se resolvió en su lugar.",
+      "projectPath": "C:\\Users\\soyji\\OneDrive\\Escritorio\\SAFWebApp\\SAFWebApp\\SAFWebApp\\SAFWebApp.Server\\SAFWebApp.Server.csproj",
+      "warningLevel": 1,
+      "filePath": "C:\\Users\\soyji\\OneDrive\\Escritorio\\SAFWebApp\\SAFWebApp\\SAFWebApp\\SAFWebApp.Server\\SAFWebApp.Server.csproj",
+      "libraryId": "MQTTnet",
+      "targetGraphs": [
+        "net10.0"
+      ]
+    },
+    {
+      "code": "NU1903",
+      "level": "Warning",
+      "message": "El paquete \"Microsoft.OpenApi\" 2.0.0 tiene una vulnerabilidad de gravedad alta conocida, https://github.com/advisories/GHSA-v5pm-xwqc-g5wc",
+      "projectPath": "C:\\Users\\soyji\\OneDrive\\Escritorio\\SAFWebApp\\SAFWebApp\\SAFWebApp\\SAFWebApp.Server\\SAFWebApp.Server.csproj",
+      "warningLevel": 1,
+      "filePath": "C:\\Users\\soyji\\OneDrive\\Escritorio\\SAFWebApp\\SAFWebApp\\SAFWebApp\\SAFWebApp.Server\\SAFWebApp.Server.csproj",
+      "libraryId": "Microsoft.OpenApi",
+      "targetGraphs": [
+        "net10.0"
+      ]
+    }
+  ]
+}

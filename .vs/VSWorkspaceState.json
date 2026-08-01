@@ -1,0 +1,16 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\SAFWebApp",
+    "\\SAFWebApp\\SAFWebApp",
+    "\\SAFWebApp\\SAFWebApp\\safwebapp.client",
+    "\\SAFWebApp\\SAFWebApp\\safwebapp.client\\src",
+    "\\SAFWebApp\\SAFWebApp\\safwebapp.client\\src\\app",
+    "\\SAFWebApp\\SAFWebApp\\safwebapp.client\\src\\app\\inicio",
+    "\\SAFWebApp\\SAFWebApp\\safwebapp.client\\src\\app\\login",
+    "\\SAFWebApp\\SAFWebApp\\SAFWebApp.Server",
+    "\\SAFWebApp\\SAFWebApp\\SAFWebApp.Server\\Controllers"
+  ],
+  "SelectedNode": "\\SAFWebApp\\SAFWebApp\\SAFWebApp.Server\\obj",
+  "PreviewInSolutionExplorer": false
+}

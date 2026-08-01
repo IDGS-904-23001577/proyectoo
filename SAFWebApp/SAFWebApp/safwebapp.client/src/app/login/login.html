@@ -1,0 +1,63 @@
+<div class="login-wrapper">
+  <div class="login-card">
+    <div class="login-header">
+      <div class="logo-container">
+        <img src="/saf-logo.png"
+             alt=""
+             aria-hidden="true">
+
+        <span class="logo-text">SAF</span>
+      </div>
+
+      <h2>Panel de Supervisores</h2>
+
+      <p>
+        Sistema de Aislamiento de Fluidos
+      </p>
+    </div>
+
+    <form (ngSubmit)="onLogin()">
+      <div class="form-group">
+        <label for="correo">
+          Correo electrónico
+        </label>
+
+        <input id="correo"
+               type="email"
+               placeholder="supervisor@saf.com"
+               [(ngModel)]="correo"
+               name="correo"
+               autocomplete="email"
+               required>
+      </div>
+
+      <div class="form-group">
+        <label for="password">
+          Contraseña
+        </label>
+
+        <input id="password"
+               type="password"
+               placeholder="********"
+               [(ngModel)]="password"
+               name="password"
+               autocomplete="current-password"
+               required>
+      </div>
+
+      <div class="error-message"
+           *ngIf="errorMessage()">
+        {{ errorMessage() }}
+      </div>
+
+      <button type="submit"
+              [disabled]="cargando()">
+        {{
+          cargando()
+            ? 'Cargando...'
+            : 'Iniciar sesión'
+        }}
+      </button>
+    </form>
+  </div>
+</div>

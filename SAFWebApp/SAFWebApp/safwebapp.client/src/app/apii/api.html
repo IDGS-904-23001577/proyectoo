@@ -1,0 +1,154 @@
+<div class="pagina-api">
+
+  <main class="contenido">
+
+    <section class="encabezado-pagina">
+
+      <div>
+        <h1>Estado de la API</h1>
+
+        <p>
+          Diagnóstico del backend y catálogo de endpoints disponibles.
+        </p>
+      </div>
+
+      <button
+        type="button"
+        (click)="consultar()">
+
+        Comprobar ahora
+      </button>
+
+    </section>
+
+    <p
+      class="mensaje-error"
+      *ngIf="mensajeError()">
+
+      {{ mensajeError() }}
+    </p>
+
+    <p *ngIf="cargando()">
+      Comprobando servicios...
+    </p>
+
+    <ng-container *ngIf="estado() as api">
+
+      <section class="resumen">
+
+        <article>
+          <span>API</span>
+
+          <strong class="correcto">
+            {{ api.estado }}
+          </strong>
+        </article>
+
+        <article>
+          <span>Base de datos</span>
+
+          <strong
+            [class.correcto]="api.baseDatos"
+            [class.fallo]="!api.baseDatos">
+
+            {{
+              api.baseDatos
+                ? 'Conectada'
+                : 'Sin conexión'
+            }}
+          </strong>
+        </article>
+
+        <article>
+          <span>Respuesta</span>
+
+          <strong>
+            {{ api.tiempoRespuestaMs }} ms
+          </strong>
+        </article>
+
+        <article>
+          <span>Versión</span>
+
+          <strong>
+            {{ api.version }}
+          </strong>
+        </article>
+
+      </section>
+
+      <section class="panel">
+
+        <div class="panel-cabecera">
+
+          <h2>Endpoints</h2>
+
+          <span>
+            {{ api.endpoints.length }} disponibles
+          </span>
+
+        </div>
+
+        <div class="tabla-contenedor">
+
+          <table>
+
+            <thead>
+              <tr>
+                <th>Método</th>
+                <th>Ruta</th>
+                <th>Módulo</th>
+                <th>Descripción</th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+              <tr *ngFor="let endpoint of api.endpoints">
+
+                <td>
+                  <span
+                    [class]="
+                      'metodo ' +
+                      claseMetodo(endpoint.metodo)
+                    ">
+
+                    {{ endpoint.metodo }}
+                  </span>
+                </td>
+
+                <td>
+                  <code>
+                    {{ endpoint.ruta }}
+                  </code>
+                </td>
+
+                <td>
+                  {{ endpoint.modulo }}
+                </td>
+
+                <td>
+                  {{ endpoint.descripcion }}
+                </td>
+
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+      </section>
+
+      <p class="pie">
+        Ambiente: {{ api.ambiente }}
+        ·
+        Servidor: {{ api.fechaServidor }}
+      </p>
+
+    </ng-container>
+
+  </main>
+
+</div>

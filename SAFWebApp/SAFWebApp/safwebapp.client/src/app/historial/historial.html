@@ -1,0 +1,151 @@
+<div class="pagina-historial">
+  
+
+  <main class="contenido">
+    <section class="encabezado-pagina">
+      <div>
+        <h1>Historial de Eventos</h1>
+
+        <p>
+          Registro de fugas detectadas por el sistema
+        </p>
+      </div>
+
+      <button type="button"
+              class="boton-exportar"
+              [disabled]="eventosOrdenados().length === 0"
+              (click)="exportarCsv()">
+
+        ⇩ Exportar
+      </button>
+    </section>
+
+    <section class="panel-historial">
+      <div class="encabezado-panel">
+        <h2>Eventos de fugas</h2>
+
+        <div class="botones-orden">
+          <button type="button"
+                  [class.activo]="tipoOrden() === 'fecha'"
+                  (click)="ordenarPorFecha()">
+
+            Por fecha
+          </button>
+
+          <button type="button"
+                  [class.activo]="tipoOrden() === 'severidad'"
+                  (click)="ordenarPorSeveridad()">
+
+            Por severidad
+          </button>
+        </div>
+      </div>
+
+      <div *ngIf="cargando()"
+           class="estado-pagina">
+
+        <div class="spinner"></div>
+        <p>Cargando historial...</p>
+      </div>
+
+      <div *ngIf="!cargando() && errorMessage()"
+           class="estado-pagina estado-error">
+
+        <p>{{ errorMessage() }}</p>
+
+        <button type="button"
+                (click)="cargarHistorial()">
+
+          Intentar nuevamente
+        </button>
+      </div>
+
+      <div *ngIf="
+          !cargando() &&
+          !errorMessage() &&
+          eventosOrdenados().length === 0
+        "
+           class="estado-pagina">
+
+        <p>No existen eventos registrados.</p>
+      </div>
+
+      <div *ngIf="
+           !cargando() &&
+           !errorMessage() &&
+           eventosOrdenados().length>
+        0
+        "
+        class="contenedor-tabla">
+
+        <table>
+          <thead>
+            <tr>
+              <th>Fecha</th>
+              <th>Sección</th>
+              <th>Tipo</th>
+              <th>Duración</th>
+              <th>Volumen perdido</th>
+              <th>Severidad</th>
+              <th>Estado</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let evento of eventosOrdenados()">
+              <td>
+                <div class="fecha">
+                  <strong>
+                    {{ obtenerFecha(evento.fechaDeteccion) }}
+                  </strong>
+
+                  <span>
+                    {{ obtenerHora(evento.fechaDeteccion) }}
+                  </span>
+                </div>
+              </td>
+
+              <td>
+                {{ evento.seccion }}
+              </td>
+
+              <td>
+                Fuga de tubería
+              </td>
+
+              <td>
+                {{ obtenerDuracion(evento) }}
+              </td>
+
+              <td>
+                {{ obtenerVolumen(evento.volumenPerdido) }}
+              </td>
+
+              <td>
+                <span class="etiqueta severidad"
+                      [class]="
+                    'etiqueta severidad ' +
+                    claseSeveridad(evento.severidad)
+                  ">
+
+                  {{ evento.severidad }}
+                </span>
+              </td>
+
+              <td>
+                <span class="etiqueta estado"
+                      [class]="
+                    'etiqueta estado ' +
+                    claseEstado(evento.estado)
+                  ">
+
+                  {{ evento.estado }}
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+</div>

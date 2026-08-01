@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="safwebapp.client/safwebapp.client.esproj">
+    <Build />
+    <Deploy />
+  </Project>
+  <Project Path="SAFWebApp.Server/SAFWebApp.Server.csproj" />
+</Solution>

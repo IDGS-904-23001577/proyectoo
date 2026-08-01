@@ -1,0 +1,139 @@
+<div class="pagina-valvulas">
+
+  <main class="contenido">
+
+    <section class="encabezado-pagina">
+
+      <div>
+        <h1>Control de Válvulas</h1>
+
+        <p>
+          Abre o cierra las válvulas del prototipo SAF.
+        </p>
+      </div>
+
+      <button
+        type="button"
+        class="boton-actualizar"
+        (click)="cargar()">
+
+        Actualizar
+      </button>
+
+    </section>
+
+    <p
+      class="mensaje exito"
+      *ngIf="mensajeExito()">
+
+      {{ mensajeExito() }}
+    </p>
+
+    <p
+      class="mensaje error"
+      *ngIf="mensajeError()">
+
+      {{ mensajeError() }}
+    </p>
+
+    <p
+      class="mensaje-carga"
+      *ngIf="cargando()">
+
+      Cargando válvulas...
+    </p>
+
+    <section
+      class="rejilla"
+      *ngIf="!cargando()">
+
+      <article
+        class="tarjeta-valvula"
+        *ngFor="let valvula of valvulas()">
+
+        <div class="cabecera-tarjeta">
+
+          <span class="numero">
+            V{{ valvula.numero }}
+          </span>
+
+          <span
+            [class]="'estado ' + claseEstado(valvula.estado)">
+
+            {{ valvula.estado }}
+          </span>
+
+        </div>
+
+        <h2>{{ valvula.nombre }}</h2>
+
+        <p class="secciones">
+          {{ valvula.secciones }}
+        </p>
+
+        <dl>
+
+          <div>
+            <dt>Tópico MQTT</dt>
+
+            <dd>
+              {{ valvula.topic }}
+            </dd>
+          </div>
+
+          <div>
+            <dt>Última actualización</dt>
+
+            <dd>
+              {{
+                valvula.ultimaActualizacion ||
+                'Sin datos'
+              }}
+            </dd>
+          </div>
+
+        </dl>
+
+        <div class="acciones">
+
+          <button
+            type="button"
+            class="abrir"
+            [disabled]="
+              procesando() === valvula.numero ||
+              valvula.estado === 'Abierta'
+            "
+            (click)="ejecutar(valvula, 'abrir')">
+
+            Abrir
+          </button>
+
+          <button
+            type="button"
+            class="cerrar"
+            [disabled]="
+              procesando() === valvula.numero ||
+              valvula.estado === 'Cerrada'
+            "
+            (click)="ejecutar(valvula, 'cerrar')">
+
+            Cerrar
+          </button>
+
+        </div>
+
+      </article>
+
+    </section>
+
+    <section class="nota-seguridad">
+
+      <strong>Seguridad:</strong>
+
+      confirma visualmente el prototipo antes de operar una válvula.
+
+    </section>
+
+  </main>
+
+</div>

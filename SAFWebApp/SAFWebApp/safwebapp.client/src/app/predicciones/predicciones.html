@@ -1,0 +1,122 @@
+<div class="pagina-predicciones">
+  <main class="contenido">
+    <section class="encabezado-pagina">
+      <h1>Predicciones de Riesgo</h1>
+    </section>
+
+    <p class="mensaje-error" *ngIf="mensajeError()">
+      {{ mensajeError() }}
+    </p>
+
+    <p class="mensaje-carga" *ngIf="cargando() && predicciones().length === 0">
+      Cargando predicciones…
+    </p>
+
+    <section class="fila-principal">
+      <article class="panel panel-historico">
+        <div class="panel-encabezado">
+          <h2>Histórico de Presión y Flujo</h2>
+
+          <div class="botones-dias">
+            <button
+              type="button"
+              *ngFor="let dias of opcionesDias"
+              [class.activo]="dias === diasSeleccionados()"
+              (click)="cambiarDias(dias)">
+              {{ dias }}d
+            </button>
+          </div>
+        </div>
+
+        <select
+          class="selector-seccion"
+          [value]="seccionSeleccionada()"
+          (change)="cambiarSeccion($any($event.target).value)">
+          <option
+            *ngFor="let opcion of opcionesSeccion"
+            [value]="opcion.valor">
+            {{ opcion.etiqueta }}
+          </option>
+        </select>
+
+        <p class="mensaje-carga" *ngIf="cargandoHistorial()">
+          Cargando histórico…
+        </p>
+
+        <p
+          class="sin-datos"
+          *ngIf="!cargandoHistorial() && historial().length === 0">
+          Sin lecturas en el rango seleccionado
+        </p>
+
+        <svg
+          class="grafica"
+          viewBox="0 0 600 220"
+          preserveAspectRatio="none"
+          *ngIf="historial().length > 0">
+          <polyline
+            class="linea-presion"
+            [attr.points]="puntosPresion()"
+            fill="none" />
+
+          <polyline
+            class="linea-caudal"
+            [attr.points]="puntosCaudal()"
+            fill="none" />
+        </svg>
+
+        <div class="leyenda" *ngIf="historial().length > 0">
+          <span class="leyenda-item">
+            <i class="punto punto-presion"></i> Presión
+          </span>
+          <span class="leyenda-item">
+            <i class="punto punto-caudal"></i> Flujo
+          </span>
+        </div>
+      </article>
+
+      <article class="panel panel-ranking">
+        <h2>Ranking de Riesgo por Sección</h2>
+
+        <p class="sin-datos" *ngIf="predicciones().length === 0 && !cargando()">
+          Sin predicciones disponibles
+        </p>
+
+        <div
+          class="fila-riesgo"
+          *ngFor="let prediccion of predicciones(); let indice = index">
+          <div class="fila-riesgo-encabezado">
+            <span class="numero">{{ indice + 1 }}</span>
+
+            <div class="fila-riesgo-info">
+              <strong>{{ prediccion.etiqueta }}</strong>
+              <small>Predicción: {{ prediccion.fechaCalculo }}</small>
+            </div>
+
+            <span [class]="'etiqueta riesgo ' + claseRiesgo(prediccion.riesgo)">
+              {{ prediccion.porcentajeRelativo | number:'1.0-0' }}%
+            </span>
+          </div>
+
+          <div class="barra-progreso">
+            <div
+              class="barra-progreso-relleno"
+              [class]="claseRiesgo(prediccion.riesgo)"
+              [style.width.%]="prediccion.porcentajeRelativo">
+            </div>
+          </div>
+        </div>
+
+        <div class="nota-probabilidad" *ngIf="predicciones().length > 0">
+          <strong>Nivel relativo de riesgo</strong>
+          <p>
+            El porcentaje compara la presión predicha a 24h entre las
+            secciones (100% = la más alta del grupo), no es una
+            probabilidad estadística exacta. La categoría
+            (Alto/Medio/Bajo) es la que calcula el modelo.
+          </p>
+        </div>
+      </article>
+    </section>
+  </main>
+</div>

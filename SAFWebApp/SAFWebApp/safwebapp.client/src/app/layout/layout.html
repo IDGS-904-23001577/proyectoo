@@ -1,0 +1,114 @@
+<div class="layout-principal">
+
+  <header class="barra-superior">
+
+    <a
+      class="marca"
+      routerLink="/dashboard"
+      aria-label="Ir al dashboard">
+
+      <img
+        src="/saf-logo.png"
+        alt=""
+        aria-hidden="true">
+
+      <span>SAF</span>
+
+    </a>
+
+    <nav
+      class="menu-principal"
+      aria-label="Navegación principal">
+
+      <a
+        routerLink="/dashboard"
+        routerLinkActive="activo"
+        [routerLinkActiveOptions]="{ exact: true }">
+
+        ▦ Dashboard
+      </a>
+
+      <a
+        routerLink="/red"
+        routerLinkActive="activo">
+
+        ▣ Red
+      </a>
+
+      <a
+        routerLink="/en-vivo"
+        routerLinkActive="activo">
+
+        ⌁ En vivo
+      </a>
+
+      <a
+        routerLink="/alertas"
+        routerLinkActive="activo">
+
+        ♧ Alertas
+      </a>
+
+      <a
+        routerLink="/historial"
+        routerLinkActive="activo">
+
+        ◷ Historial
+      </a>
+
+      <a
+        routerLink="/predicciones"
+        routerLinkActive="activo">
+
+        ↗ Predicciones
+      </a>
+
+      <a
+        routerLink="/informes"
+        routerLinkActive="activo">
+
+        ▱ Informes
+      </a>
+
+      <a
+        routerLink="/valvulas"
+        routerLinkActive="activo">
+
+        ⌘ Válvulas
+      </a>
+
+      <a
+        routerLink="/api"
+        routerLinkActive="activo">
+
+        ▤ API
+      </a>
+
+    </nav>
+
+    <div class="acciones-usuario">
+
+      <span
+        class="nombre-usuario"
+        [title]="nombreUsuario()">
+
+        {{ nombreUsuario() }}
+      </span>
+
+      <button
+        type="button"
+        class="boton-cerrar-sesion"
+        (click)="cerrarSesion()">
+
+        Cerrar sesión
+      </button>
+
+    </div>
+
+  </header>
+
+  <main class="contenido-layout">
+    <router-outlet></router-outlet>
+  </main>
+
+</div>
