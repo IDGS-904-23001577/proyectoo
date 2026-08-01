@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "C:\\Users\\soyji\\OneDrive\\Escritorio\\SAFWebApp\\SAFWebApp\\SAFWebApp\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{73B1A435-11C5-4834-809B-5670C863A8E0}|Elementos de la soluci\u00F3n{73B1A435-11C5-4834-809B-5670C863A8E0}|C:\\Users\\soyji\\OneDrive\\Escritorio\\SAFWebApp\\SAFWebApp\\SAFWebApp\\.gitignore||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{73B1A435-11C5-4834-809B-5670C863A8E0}|Elementos de la soluci\u00F3n{73B1A435-11C5-4834-809B-5670C863A8E0}|solutionrelative:.gitignore||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{BEB65F25-BE29-D793-DD9A-47691408E2F3}|SAFWebApp.Server\\SAFWebApp.Server.csproj|c:\\users\\soyji\\onedrive\\escritorio\\safwebapp\\safwebapp\\safwebapp\\safwebapp.server\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{BEB65F25-BE29-D793-DD9A-47691408E2F3}|SAFWebApp.Server\\SAFWebApp.Server.csproj|solutionrelative:safwebapp.server\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
@@ -26,7 +30,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Bookmark",
@@ -38,7 +42,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
+              "Title": ".gitignore",
+              "DocumentMoniker": "C:\\Users\\soyji\\OneDrive\\Escritorio\\SAFWebApp\\SAFWebApp\\SAFWebApp\\.gitignore",
+              "RelativeDocumentMoniker": ".gitignore",
+              "ToolTip": "C:\\Users\\soyji\\OneDrive\\Escritorio\\SAFWebApp\\SAFWebApp\\SAFWebApp\\.gitignore",
+              "RelativeToolTip": ".gitignore",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2026-08-01T19:28:26.143Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "appsettings.Development.json",
               "DocumentMoniker": "C:\\Users\\soyji\\OneDrive\\Escritorio\\SAFWebApp\\SAFWebApp\\SAFWebApp\\SAFWebApp.Server\\appsettings.Development.json",
               "RelativeDocumentMoniker": "SAFWebApp.Server\\appsettings.Development.json",
@@ -50,7 +67,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "AuthController.cs",
               "DocumentMoniker": "C:\\Users\\soyji\\OneDrive\\Escritorio\\SAFWebApp\\SAFWebApp\\SAFWebApp\\SAFWebApp.Server\\Controllers\\AuthController.cs",
               "RelativeDocumentMoniker": "SAFWebApp.Server\\Controllers\\AuthController.cs",
@@ -62,7 +79,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\soyji\\OneDrive\\Escritorio\\SAFWebApp\\SAFWebApp\\SAFWebApp\\SAFWebApp.Server\\Program.cs",
               "RelativeDocumentMoniker": "SAFWebApp.Server\\Program.cs",
@@ -74,7 +91,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "appsettings.json",
               "DocumentMoniker": "C:\\Users\\soyji\\OneDrive\\Escritorio\\SAFWebApp\\SAFWebApp\\SAFWebApp\\SAFWebApp.Server\\appsettings.json",
               "RelativeDocumentMoniker": "SAFWebApp.Server\\appsettings.json",
